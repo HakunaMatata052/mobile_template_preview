@@ -17,6 +17,7 @@ function createWindow() {
     width: 600,
     height: 200,    
     resizable: false,
+    title: '万家灯火手机模板预览工具',
     // frame: false,
   })
   win.on('closed', () => {
@@ -36,13 +37,17 @@ let newwin;
 
 ipc.on('add', (sys,val) => {
   newwin = new BrowserWindow({    
-    width: 640,
+    width: 780,
     height: 800,
     center: true,
     resizable: false,
     parent: win, //win是主窗口
-  });
+    webPreferences:{
+      devTools:true,
 
+    }
+  });
+  newwin.webContents.openDevTools()
   console.log(val)
   var _path = path.join(__dirname, '', '//app.html');
   var path1 = val+"\\index.html";
@@ -91,6 +96,7 @@ function setStr(newwin,_path,content,val, ys) {
   content = content.replace(/<%diy\("[a-z]*"\)%>/gi, "");
   content = content.replace(/<%.*?%>/gi, "");
   content = content.replace(/{[a-z]*\[image\]}/gi, "http://test.btoe.cn/lb/123.png");
+  content = content.replace(/{[a-z]*\[simage\]}/gi, "http://test.btoe.cn/lb/123.png");
   content = content.replace(/{[a-z]*\[thumb\]}/gi, "http://test.btoe.cn/lb/123.png");
   content = content.replace(/{[a-z]*\[title\]}/gi, "产品标题0123abcseABCDE");
   content = content.replace(/{[a-z]*\[zhaiyao\]}/gi, "摘要又称概要、内容提要。摘要是以提供文献内容梗概为目的，不加评论和补充解释，简明、确切地记述文献重要内容的短文。其基本要素包括研究目的、方法、结果和结论。具体地讲就是研究工作的主要对象和范围，采用的手段和方法");
